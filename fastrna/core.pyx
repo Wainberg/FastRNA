@@ -14,8 +14,8 @@ cimport numpy as np
 
 cpdef float[:] sparse_mat_rowsum(
         const float[:] data,
-        const int[:] indices,
-        const int[:] indptr,
+        const long[:] indices,
+        const long[:] indptr,
         int nrow,
         int ncol,
         bint sptype
@@ -37,8 +37,8 @@ cpdef float[:] sparse_mat_rowsum(
 
 cpdef float[:] sparse_mat_colsum(
         const float[:] data,
-        const int[:] indices,
-        const int[:] indptr,
+        const long[:] indices,
+        const long[:] indptr,
         int nrow,
         int ncol,
         bint sptype
@@ -61,8 +61,8 @@ cpdef float[:] sparse_mat_colsum(
 
 cpdef np.ndarray[np.float32_t, ndim=1] fastrna_hvg_sub(
         const float[:] data,
-        const int[:] indices,
-        const int[:] indptr,
+        const long[:] indices,
+        const long[:] indptr,
         int nrow,
         int ncol
         ):
@@ -122,8 +122,8 @@ cpdef np.ndarray[np.float32_t, ndim=1] fastrna_hvg_sub(
 
 cpdef np.ndarray[np.float32_t, ndim=2] fastrna_proj(
         const float[:] data,
-        const int[:] indices,
-        const int[:] indptr,
+        const long[:] indices,
+        const long[:] indptr,
         int nrow,
         int ncol,
         const float[:] n_umi_col,
@@ -175,8 +175,8 @@ cpdef np.ndarray[np.float32_t, ndim=2] fastrna_proj(
 
 cpdef np.ndarray[np.float32_t, ndim=2] fastrna_ed(
         const float[:] data,
-        const int[:] indices,
-        const int[:] indptr,
+        const long[:] indices,
+        const long[:] indptr,
         int nrow,
         int ncol,
         const float[:] n_umi_col

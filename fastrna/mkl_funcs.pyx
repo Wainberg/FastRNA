@@ -12,8 +12,8 @@ cdef struct matrix_descr:
 
 cdef sparse_matrix_t to_mkl_spmatrix(
         const float[:] data,
-        const int[:] indices,
-        const int[:] indptr,
+        const long[:] indices,
+        const long[:] indptr,
         int nrow,
         int ncol,
         bint sptype
@@ -117,8 +117,8 @@ cdef np.ndarray[np.float32_t, ndim=2] to_python_dmatrix(
 # Sparse routines
 cdef np.ndarray[np.float32_t, ndim=1] mkl_sparse_mv(
         const float[:] data,
-        const int[:] indices,
-        const int[:] indptr,
+        const long[:] indices,
+        const long[:] indptr,
         int nrow,
         int ncol,
         bint sptype,
@@ -166,8 +166,8 @@ cdef np.ndarray[np.float32_t, ndim=1] mkl_sparse_mv(
 
 cpdef np.ndarray[np.float32_t, ndim=2] mkl_sparse_gram(
         const float[:] data,
-        const int[:] indices,
-        const int[:] indptr,
+        const long[:] indices,
+        const long[:] indptr,
         int nrow,
         int ncol,
         bint transpose
@@ -205,8 +205,8 @@ cpdef np.ndarray[np.float32_t, ndim=2] mkl_sparse_gram(
 
 cdef np.ndarray[np.float32_t, ndim=2] mkl_sparse_mm(
         const float[:] data,
-        const int[:] indices,
-        const int[:] indptr,
+        const long[:] indices,
+        const long[:] indptr,
         int nrow,
         int ncol,
         bint sptype,

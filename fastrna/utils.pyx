@@ -11,9 +11,9 @@ cimport numpy as np
 @cython.cdivision(True)
 cdef void spmatrix_to_dense_csc(
         const float[:] data,
-        const int[:] indices,
-        const int[:] ptrB,
-        const int[:] ptrC,
+        const long[:] indices,
+        const long[:] ptrB,
+        const long[:] ptrC,
         int nrow,
         int ncol,
         float[::1, :] result
@@ -32,9 +32,9 @@ cdef void spmatrix_to_dense_csc(
 @cython.cdivision(True)
 cdef void spmatrix_to_dense_csr(
         const float[:] data,
-        const int[:] indices,
-        const int[:] ptrB,
-        const int[:] ptrC,
+        const long[:] indices,
+        const long[:] ptrB,
+        const long[:] ptrC,
         int nrow,
         int ncol,
         float[:, ::1] result
@@ -53,8 +53,8 @@ cdef void spmatrix_to_dense_csr(
 @cython.cdivision(True)
 cdef float[:] csc_div_vec_row(
         const float[:] data,
-        const int[:] indices,
-        const int[:] indptr,
+        const long[:] indices,
+        const long[:] indptr,
         const float[:] vec
         ):
 
@@ -73,8 +73,8 @@ cdef float[:] csc_div_vec_row(
 @cython.cdivision(True)
 cdef float[:] csc_div_vec_col(
         const float[:] data,
-        const int[:] indices,
-        const int[:] indptr,
+        const long[:] indices,
+        const long[:] indptr,
         const float[:] vec
         ):
 

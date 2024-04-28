@@ -1,8 +1,8 @@
 cdef void spmatrix_to_dense_csc(
         const float[:],
-        const int[:],
-        const int[:],
-        const int[:],
+        const long[:],
+        const long[:],
+        const long[:],
         int nrow,
         int ncol,
         float[::1, :]
@@ -10,9 +10,9 @@ cdef void spmatrix_to_dense_csc(
 
 cdef void spmatrix_to_dense_csr(
         const float[:],
-        const int[:],
-        const int[:],
-        const int[:],
+        const long[:],
+        const long[:],
+        const long[:],
         int nrow,
         int ncol,
         float[:, ::1]
@@ -20,15 +20,15 @@ cdef void spmatrix_to_dense_csr(
 
 cdef float[:] csc_div_vec_row(
 		const float[:],
-		const int[:],
-		const int[:],
+		const long[:],
+		const long[:],
 		const float[:]
 		)
 
 cdef float[:] csc_div_vec_col(
 		const float[:],
-		const int[:],
-		const int[:],
+		const long[:],
+		const long[:],
 		const float[:]
 		)
 

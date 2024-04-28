@@ -166,8 +166,8 @@ cdef extern from "mkl.h":
     
 cdef np.ndarray[np.float32_t, ndim=1] mkl_sparse_mv(
 		const float[:],
-		const int[:],
-		const int[:],
+		const long[:],
+		const long[:],
 		int,
 		int,
 		bint,
@@ -177,8 +177,8 @@ cdef np.ndarray[np.float32_t, ndim=1] mkl_sparse_mv(
 
 cpdef np.ndarray[np.float32_t, ndim=2] mkl_sparse_gram(
         const float[:],
-        const int[:],
-        const int[:],
+        const long[:],
+        const long[:],
         int,
         int,
         bint
