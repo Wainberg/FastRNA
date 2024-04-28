@@ -93,9 +93,9 @@ cdef np.ndarray[np.float32_t, ndim=2] to_python_dmatrix(
     if sptype:
         spmatrix_to_dense_csr(
                 <float[:nnz]> values,
-                <int[:nnz]> index,
-                <int[:nptr]> start,
-                <int[:nptr]> end,
+                <long[:nnz]> index,
+                <long[:nptr]> start,
+                <long[:nptr]> end,
                 rows,
                 cols,
                 result
@@ -103,9 +103,9 @@ cdef np.ndarray[np.float32_t, ndim=2] to_python_dmatrix(
     else:
         spmatrix_to_dense_csc(
                 <float[:nnz]> values,
-                <int[:nnz]> index,
-                <int[:nptr]> start,
-                <int[:nptr]> end,
+                <long[:nnz]> index,
+                <long[:nptr]> start,
+                <long[:nptr]> end,
                 rows,
                 cols,
                 result

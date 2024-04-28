@@ -4,7 +4,7 @@ cimport numpy as np
 cdef extern from "mkl.h":
 
     # Sparse routines
-    ctypedef int MKL_INT
+    ctypedef long MKL_INT
 
     ctypedef enum sparse_index_base_t:
         SPARSE_INDEX_BASE_ZERO = 0
