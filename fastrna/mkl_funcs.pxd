@@ -164,7 +164,7 @@ cdef extern from "mkl.h":
     )
 
     
-cdef np.ndarray[np.float32_t, ndim=1] mkl_sparse_mv_64(
+cdef np.ndarray[np.float32_t, ndim=1] mkl_sparse_mv(
 		const float[:],
 		const long[:],
 		const long[:],
