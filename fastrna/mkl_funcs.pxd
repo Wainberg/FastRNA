@@ -4,7 +4,7 @@ cimport numpy as np
 cdef extern from "mkl.h":
 
     # Sparse routines
-    ctypedef long MKL_INT
+    ctypedef long MKL_INT64
 
     ctypedef enum sparse_index_base_t:
         SPARSE_INDEX_BASE_ZERO = 0
@@ -56,51 +56,51 @@ cdef extern from "mkl.h":
         sparse_fill_mode_t mode # upper or lower triangular part of the matrix ( for triangular / symmetric / hermitian case)
         sparse_diag_type_t diag # unit or non-unit diagonal ( for triangular / symmetric / hermitian case)
 
-    sparse_status_t mkl_sparse_s_create_csr(
+    sparse_status_t mkl_sparse_s_create_csr_64(
         sparse_matrix_t* A,
         const sparse_index_base_t indexing, # indexing: C-style or Fortran-style
-        const MKL_INT rows,
-        const MKL_INT cols,
-        MKL_INT *rows_start,
-        MKL_INT *rows_end,
-        MKL_INT *col_indx,
+        const MKL_INT64 rows,
+        const MKL_INT64 cols,
+        MKL_INT64 *rows_start,
+        MKL_INT64 *rows_end,
+        MKL_INT64 *col_indx,
         float *values
     )
 
-    sparse_status_t mkl_sparse_s_create_csc(
+    sparse_status_t mkl_sparse_s_create_csc_64(
         sparse_matrix_t* A,
         const sparse_index_base_t indexing,
-        const MKL_INT rows,
-        const MKL_INT cols,
-        MKL_INT *cols_start,
-        MKL_INT *cols_end,
-        MKL_INT *row_indx,
+        const MKL_INT64 rows,
+        const MKL_INT64 cols,
+        MKL_INT64 *cols_start,
+        MKL_INT64 *cols_end,
+        MKL_INT64 *row_indx,
         float *values
     )
 
-    sparse_status_t mkl_sparse_s_export_csr(
+    sparse_status_t mkl_sparse_s_export_csr_64(
         const sparse_matrix_t source,
         sparse_index_base_t *indexing,
-        MKL_INT *rows,
-        MKL_INT *cols,
-        MKL_INT **rows_start,
-        MKL_INT **rows_end,
-        MKL_INT **col_indx,
+        MKL_INT64 *rows,
+        MKL_INT64 *cols,
+        MKL_INT64 **rows_start,
+        MKL_INT64 **rows_end,
+        MKL_INT64 **col_indx,
         float **values
     )
 
-    sparse_status_t mkl_sparse_s_export_csc(
+    sparse_status_t mkl_sparse_s_export_csc_64(
         const sparse_matrix_t source,
         sparse_index_base_t *indexing,
-        MKL_INT *rows,
-        MKL_INT *cols,
-        MKL_INT **cols_start,
-        MKL_INT **cols_end,
-        MKL_INT **row_indx,
+        MKL_INT64 *rows,
+        MKL_INT64 *cols,
+        MKL_INT64 **cols_start,
+        MKL_INT64 **cols_end,
+        MKL_INT64 **row_indx,
         float **values
     )
 
-    sparse_status_t mkl_sparse_s_mv(
+    sparse_status_t mkl_sparse_s_mv_64(
         const sparse_operation_t operation,
         const float alpha,
         const sparse_matrix_t A,
@@ -110,38 +110,38 @@ cdef extern from "mkl.h":
         float *y
     )
 
-    sparse_status_t mkl_sparse_s_mm(
+    sparse_status_t mkl_sparse_s_mm_64(
         const sparse_operation_t operation,
         const float alpha,
         const sparse_matrix_t A,
         const matrix_descr descr,
         const sparse_layout_t layout,
         const float* B,
-        const MKL_INT cols,
-        const MKL_INT ldb,
+        const MKL_INT64 cols,
+        const MKL_INT64 ldb,
         const float beta,
         float* C,
-        const MKL_INT ldc
+        const MKL_INT64 ldc
     )
 
-    sparse_status_t mkl_sparse_spmm(
+    sparse_status_t mkl_sparse_spmm_64(
         const sparse_operation_t operation,
         const sparse_matrix_t A,
         const sparse_matrix_t B,
         sparse_matrix_t *C
     )
 
-    sparse_status_t mkl_sparse_syrk(
+    sparse_status_t mkl_sparse_syrk_64(
         const sparse_operation_t operation,
         const sparse_matrix_t A,
         sparse_matrix_t *C
     ) 
 
-    sparse_status_t mkl_sparse_destroy(
+    sparse_status_t mkl_sparse_destroy_64(
             sparse_matrix_t A
     )
 
-    sparse_status_t mkl_sparse_order(
+    sparse_status_t mkl_sparse_order_64(
             const sparse_matrix_t A
     )
 
@@ -150,21 +150,21 @@ cdef extern from "mkl.h":
         CblasRowMajor = 101
         CblasColMajor = 102
     
-    void cblas_sger(
+    void cblas_sger_64(
             const CBLAS_LAYOUT Layout,
-            const MKL_INT m,
-            const MKL_INT n,
+            const MKL_INT64 m,
+            const MKL_INT64 n,
 			const float alpha,
             const float* x,
-            const MKL_INT incx,
+            const MKL_INT64 incx,
             const float* y,
-            const MKL_INT incy,
+            const MKL_INT64 incy,
             float* a,
-            const MKL_INT lda
+            const MKL_INT64 lda
     )
 
     
-cdef np.ndarray[np.float32_t, ndim=1] mkl_sparse_mv(
+cdef np.ndarray[np.float32_t, ndim=1] mkl_sparse_mv_64(
 		const float[:],
 		const long[:],
 		const long[:],

@@ -19,20 +19,20 @@ cdef sparse_matrix_t to_mkl_spmatrix(
         bint sptype
         ):
 
-    cdef MKL_INT rows = nrow
-    cdef MKL_INT cols = ncol
+    cdef MKL_INT64 rows = nrow
+    cdef MKL_INT64 cols = ncol
     cdef sparse_matrix_t A
     cdef sparse_index_base_t base_index = SPARSE_INDEX_BASE_ZERO
 
-    cdef MKL_INT* start = &indptr[0]
-    cdef MKL_INT* end = &indptr[1]
-    cdef MKL_INT* index = &indices[0]
+    cdef MKL_INT64* start = &indptr[0]
+    cdef MKL_INT64* end = &indptr[1]
+    cdef MKL_INT64* index = &indices[0]
     cdef float* values = &data[0]
 
     if sptype:
-        mkl_sparse_s_create = mkl_sparse_s_create_csr
+        mkl_sparse_s_create = mkl_sparse_s_create_csr_64
     else:
-        mkl_sparse_s_create = mkl_sparse_s_create_csc
+        mkl_sparse_s_create = mkl_sparse_s_create_csc_64
 
     cdef sparse_status_t create_status = mkl_sparse_s_create(
             &A,
@@ -52,20 +52,20 @@ cdef np.ndarray[np.float32_t, ndim=2] to_python_dmatrix(
         bint sptype
         ):
 
-    cdef MKL_INT rows
-    cdef MKL_INT cols
+    cdef MKL_INT64 rows
+    cdef MKL_INT64 cols
     cdef sparse_index_base_t base_index = SPARSE_INDEX_BASE_ZERO
-    cdef MKL_INT* start
-    cdef MKL_INT* end
-    cdef MKL_INT* index
+    cdef MKL_INT64* start
+    cdef MKL_INT64* end
+    cdef MKL_INT64* index
     cdef float* values
-    cdef MKL_INT nptr
+    cdef MKL_INT64 nptr
 
     if sptype:
-        mkl_sparse_s_export = mkl_sparse_s_export_csr
+        mkl_sparse_s_export = mkl_sparse_s_export_csr_64
         order = 'C'
     else:
-        mkl_sparse_s_export = mkl_sparse_s_export_csc
+        mkl_sparse_s_export = mkl_sparse_s_export_csc_64
         order = 'F'
 
     export_status = mkl_sparse_s_export(
@@ -115,7 +115,7 @@ cdef np.ndarray[np.float32_t, ndim=2] to_python_dmatrix(
 
 
 # Sparse routines
-cdef np.ndarray[np.float32_t, ndim=1] mkl_sparse_mv(
+cdef np.ndarray[np.float32_t, ndim=1] mkl_sparse_mv_64(
         const float[:] data,
         const long[:] indices,
         const long[:] indptr,
@@ -127,7 +127,7 @@ cdef np.ndarray[np.float32_t, ndim=1] mkl_sparse_mv(
         ):
 
     cdef sparse_operation_t operation
-    cdef MKL_INT shape_out
+    cdef MKL_INT64 shape_out
     if transpose:
         operation = SPARSE_OPERATION_TRANSPOSE
         shape_out = ncol
@@ -152,7 +152,7 @@ cdef np.ndarray[np.float32_t, ndim=1] mkl_sparse_mv(
     cdef np.ndarray[np.float32_t, ndim=1] result = np.zeros(shape_out, dtype=np.float32)
     cdef float[:] result_view = result
 
-    status = mkl_sparse_s_mv(
+    status = mkl_sparse_s_mv_64(
             operation,
             alpha,
             A,
@@ -187,10 +187,10 @@ cpdef np.ndarray[np.float32_t, ndim=2] mkl_sparse_gram(
             ncol,
             1
             )
-    mkl_sparse_order(A)
+    mkl_sparse_order_64(A)
     cdef sparse_matrix_t C
 
-    status = mkl_sparse_syrk(
+    status = mkl_sparse_syrk_64(
             operation,
             A,
             &C
@@ -198,8 +198,8 @@ cpdef np.ndarray[np.float32_t, ndim=2] mkl_sparse_gram(
 
     cdef np.ndarray[np.float32_t, ndim=2] result = to_python_dmatrix(C, 1)
 
-    mkl_sparse_destroy(A)
-    mkl_sparse_destroy(C)
+    mkl_sparse_destroy_64(A)
+    mkl_sparse_destroy_64(C)
 
     return result
 
@@ -215,7 +215,7 @@ cdef np.ndarray[np.float32_t, ndim=2] mkl_sparse_mm(
         ):
 
     cdef sparse_operation_t operation
-    cdef MKL_INT shape_out
+    cdef MKL_INT64 shape_out
     if transpose:
         operation = SPARSE_OPERATION_TRANSPOSE
         shape_out = ncol
@@ -243,7 +243,7 @@ cdef np.ndarray[np.float32_t, ndim=2] mkl_sparse_mm(
             )
     cdef float[:,:] result_view = result
 
-    status = mkl_sparse_s_mm(
+    status = mkl_sparse_s_mm_64(
             operation,
             alpha,
             A,
@@ -266,19 +266,19 @@ cdef np.ndarray[np.float32_t, ndim=2] cblas_ger(
         ):
 
     cdef CBLAS_LAYOUT Layout = CblasRowMajor
-    cdef MKL_INT m = x.shape[0]
-    cdef MKL_INT n = y.shape[0]
+    cdef MKL_INT64 m = x.shape[0]
+    cdef MKL_INT64 n = y.shape[0]
     cdef float alpha = 1.
-    cdef MKL_INT incx = 1
-    cdef MKL_INT incy = 1
-    cdef MKL_INT lda = n
+    cdef MKL_INT64 incx = 1
+    cdef MKL_INT64 incy = 1
+    cdef MKL_INT64 lda = n
 
     cdef np.ndarray[np.float32_t, ndim=2] result = np.zeros(
             (m, n),
             dtype=np.float32
             )
     cdef float[:,:] result_view = result
-    cblas_sger(
+    cblas_sger_64(
             Layout,
             m,
             n,

@@ -22,7 +22,7 @@ cpdef float[:] sparse_mat_rowsum(
         ):
 
     cdef float[:] ones = np.ones(ncol, dtype=np.float32)
-    cdef float[:] rowsum = mkl_sparse_mv(
+    cdef float[:] rowsum = mkl_sparse_mv_64(
             data,
             indices,
             indptr,
@@ -45,7 +45,7 @@ cpdef float[:] sparse_mat_colsum(
         ):
 
     cdef float[:] ones = np.ones(nrow, dtype=np.float32)
-    cdef float[:] colsum = mkl_sparse_mv(
+    cdef float[:] colsum = mkl_sparse_mv_64(
             data,
             indices,
             indptr,
@@ -92,7 +92,7 @@ cpdef np.ndarray[np.float32_t, ndim=1] fastrna_hvg_sub(
     cdef float[:] prop_div = div(prop_per_cell, one_sub_prop)
 
     # calculate first component
-    cdef float[:] first_reduce = mkl_sparse_mv(
+    cdef float[:] first_reduce = mkl_sparse_mv_64(
             csc_div_vec_row(mul(data, data), indices, indptr, n_umi_row),
             indices,
             indptr,
@@ -104,7 +104,7 @@ cpdef np.ndarray[np.float32_t, ndim=1] fastrna_hvg_sub(
             )
 
     # calculate seoncd component
-    cdef float[:] sec_reduce = mkl_sparse_mv(
+    cdef float[:] sec_reduce = mkl_sparse_mv_64(
             data,
             indices,
             indptr,
@@ -213,7 +213,7 @@ cpdef np.ndarray[np.float32_t, ndim=2] fastrna_ed(
             )
 
     # calculate first component
-    cdef np.ndarray[np.float32_t, ndim=2] cov_mat_first = mkl_sparse_gram(
+    cdef np.ndarray[np.float32_t, ndim=2] cov_mat_first = mkl_sparse_gram_64(
             data_A,
             indices,
             indptr,
@@ -224,7 +224,7 @@ cpdef np.ndarray[np.float32_t, ndim=2] fastrna_ed(
 
     # calculate second component
     # 안 될 땐 input 길이, nrow, ncol, transpose 바뀐 거 먼저 봐라 
-    cdef float[:] cov_mat_sec_row = mkl_sparse_mv(
+    cdef float[:] cov_mat_sec_row = mkl_sparse_mv_64(
             data_A,
             indices,
             indptr,
